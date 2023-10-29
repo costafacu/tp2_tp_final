@@ -1,4 +1,4 @@
-import { User, Role } from "../Models/index.js";
+import { User, Role,Product} from "../Models/index.js";
 
 class UserController {
   constructor() { }
@@ -22,7 +22,7 @@ class UserController {
       const user = await User.findOne({
         where: { id },
         attributes: ["id", "username", "nombre", "apellido"],
-        include: [{ model: Role, attributes: ["name"] }],
+        include: [{ model: Role, attributes: ["name"] },{model: Product, attributes:["id","nombre","marca","modelo","precio","fotoURL","stock","userId"]}],
       });
       if (!user) throw new Error("No hay usuario con ese ID");
       res
