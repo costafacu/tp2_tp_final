@@ -27,6 +27,7 @@ class ProductController {
       if (!product){
         throw new Error("no se encontro el producto con esa ID")
       }
+      res.status(200).send({ success: true, message: "Product por id", data: product });
     } catch (error) {
       res.status(400).send({ success: false, message: error.message });
     }
