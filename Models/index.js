@@ -19,4 +19,4 @@ Product.belongsTo(User,{
 User.belongsToMany(Product, { through: ProductFavorito });
 Product.belongsToMany(User, { through: ProductFavorito });
 
-export { User, Role, Product };
+export { User, Role, Product,ProductFavorito };

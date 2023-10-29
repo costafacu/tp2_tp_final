@@ -1,4 +1,4 @@
-import {Product} from "../Models/index.js";
+import {Product,ProductFavorito} from "../Models/index.js";
 
 class ProductController {
   constructor() {}
@@ -44,7 +44,7 @@ class ProductController {
   updateProduct = async (req, res) => {
     try {
       const {nombre, marca, modelo, precio, stock} = req.body;
-      const { id } = req
+      const { id } = req.params
       const product = await Product.update({ nombre, marca, modelo, precio, stock }, { where: { id } });
       res
         .status(200)
@@ -62,6 +62,22 @@ class ProductController {
       res
         .status(200)
         .send({ success: true, message: "Product eliminado", data: product });
+    } catch (error) {
+      res.status(400).send({ success: false, message: error.message });
+    }
+  };
+  likeProduct = async (req, res) => {
+    try {
+      const {id} = req.params;
+      const {userId} = req.query;
+      if (!userId){
+        throw new Error("No se envio user id por parametro")
+      }
+      const likedProduct = await ProductFavorito.create({ UserId:userId, ProductId:id });
+      res
+        .status(200)
+        .send({ success: true, message: "Producto likeado", data: likedProduct });
+
     } catch (error) {
       res.status(400).send({ success: false, message: error.message });
     }

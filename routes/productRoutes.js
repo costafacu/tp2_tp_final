@@ -8,5 +8,6 @@ productRoutes.get("/:id",productController.getProductById);
 productRoutes.post("/", productController.createProduct);
 productRoutes.put("/:id",productController.updateProduct)
 productRoutes.delete("/:id", productController.deleteProduct);
+productRoutes.post("/:id/like", productController.likeProduct);
 
 export default productRoutes;
