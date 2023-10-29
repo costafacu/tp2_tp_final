@@ -1,17 +1,14 @@
 import { User, Role } from "../Models/index.js";
 
 class UserController {
-  constructor() {}
+  constructor() { }
   getAllUsers = async (req, res) => {
     try {
       const users = await User.findAll({
-        attributes: ["id", "name"],
+        attributes: ["id", "username", "nombre", "apellido"],
         include: [{ model: Role, attributes: ["name"] }],
-     //    where:{
-     //      status:"active"
-     //    }
       });
-      //  if (users.length === 0) throw new Error("no hay usuarios");
+      if (users.length === 0) throw new Error("no hay usuarios");
       res
         .status(200)
         .send({ success: true, message: "Todos lo usuarios", data: users });
@@ -24,10 +21,10 @@ class UserController {
       const { id } = req.params;
       const user = await User.findOne({
         where: { id },
-        attributes: ["id", "name"],
+        attributes: ["id", "username", "nombre", "apellido"],
         include: [{ model: Role, attributes: ["name"] }],
       });
-      if (!user) throw new Error("no hay usuario");
+      if (!user) throw new Error("No hay usuario con ese ID");
       res
         .status(200)
         .send({ success: true, message: "Todos lo usuarios", data: user });
@@ -38,10 +35,15 @@ class UserController {
 
   createUser = async (req, res) => {
     try {
-      const { name, email, roleId } = req.body;
+      const { nombre, apellido, username } = req.body;
 
-      const user = await User.create({ name, email, roleId });
-      //  console.log(`🚀 ~ UserController ~ createUser= ~ user:`, user)
+      const defaultRole = await Role.findOne({
+        where: {
+          name: "user",
+        }
+      })
+
+      const user = await User.create({ nombre, apellido, username, roleId: defaultRole.id });
       if (!user) throw new Error("no se creo nada");
       res
         .status(200)
@@ -53,16 +55,15 @@ class UserController {
   updateUser = async (req, res) => {
     try {
       const { id } = req.params;
-      const { name, email, roleId } = req.body;
+      const { nombre, apellido } = req.body;
       const user = await User.update(
-        { name, email, roleId },
+        { nombre, apellido },
         {
           where: {
             id,
           },
         }
       );
-      //  console.log(`🚀 ~ UserController ~ updateUser= ~ user:`, user);
       res
         .status(200)
         .send({ success: true, message: "Usuario modificado", data: user });
@@ -77,7 +78,6 @@ class UserController {
       const user = await User.destroy({
         where: { id },
       });
-      console.log(`🚀 ~ UserController ~ deleteUser ~ user:`, user)
       res
         .status(200)
         .send({ success: true, message: "Usuario modificado", data: user });

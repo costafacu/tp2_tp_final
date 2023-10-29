@@ -1,44 +1,28 @@
 import { DataTypes, Model } from "sequelize";
 import connection from "../connection/connection.js";
-// import {Role} from "./index.js";
 
-class User extends Model {}
+class User extends Model { }
 
 User.init(
   {
-    name: {
+    nombre: {
       type: DataTypes.STRING,
       allowNull: false,
-      get() {
-        const nameUpperCase = this.getDataValue("name");
-        return nameUpperCase.toUpperCase();
-      },
-      set(value) {
-        this.setDataValue("name", value.toLowerCase());
-      },
-      validate: {
-        notEmpty: true,
-      },
     },
-    email: {
+    apellido: {
       type: DataTypes.STRING,
-      validate: {
-        isEmail: {
-          msg: "Pone un email",
-        },
-      },
+      allowNull: false,
     },
-//     role: {
-//       type: DataTypes.INTEGER,
-//       references: {
-//         model: Role,
-//         key: "id",
-//       },
-//     },
+    username: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true
+    }
   },
   {
     sequelize: connection,
     modelName: "User",
+    timestamps: false,
   }
 );
 
