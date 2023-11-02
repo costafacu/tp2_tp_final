@@ -40,18 +40,29 @@ Product.init(
                   msg: "El precio debe ser un número decimal.",
                 },
                 min: {
-                  args: [0],
-                  msg: "El precio debe ser mayor o igual a 0.",
+                  args: [0.1],
+                  msg: "El precio debe ser mayor a 0.",
                 },
               },
         },
         fotoURL:{
             type: DataTypes.STRING,
             allowNull: false,
+            validate: {
+              isUrl: {
+                msg: "La URL de la foto no es válida.",
+              },
+            },
         },
         stock:{
             type: DataTypes.INTEGER,
             allowNull: false,
+            validate: {
+              min: {
+                args: [0],
+                msg: "El stock no puede ser negativo.",
+              },
+            },
         }
     },
     {
