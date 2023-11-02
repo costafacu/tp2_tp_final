@@ -8,15 +8,30 @@ User.init(
     nombre: {
       type: DataTypes.STRING,
       allowNull: false,
+      validate: {
+        notEmpty: {
+          msg: "El nombre del Usuario no puede estar vacío.",
+        },
+      },
     },
     apellido: {
       type: DataTypes.STRING,
       allowNull: false,
+      validate: {
+        notEmpty: {
+          msg: "El apellido del Usuario no puede estar vacío.",
+        },
+      },
     },
     username: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true
+      unique: true,
+      validate: {
+        notEmpty: {
+          msg: "Debe ingresar un nombre de usuario.",
+        },
+      },
     }
   },
   {
