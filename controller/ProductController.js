@@ -1,4 +1,4 @@
-import { Product, ProductFavorito } from "../Models/index.js";
+import { Product } from "../Models/index.js";
 
 class ProductController {
   constructor() { }
@@ -74,10 +74,21 @@ class ProductController {
       if (!userId) {
         throw new Error("No se envio user id por parametro")
       }
-      const likedProduct = await ProductFavorito.create({ UserId: userId, ProductId: id });
+      const producto = await Product.findOne({
+        where: {
+          id
+        }
+      });
+
+      if (!producto) {
+        throw new Error("No se encontró el producto")
+      }
+
+      producto.addUser(userId);
+
       res
         .status(200)
-        .send({ success: true, message: "Producto likeado", data: likedProduct });
+        .send({ success: true, message: "Producto likeado" });
 
     } catch (error) {
       res.status(400).send({ success: false, message: error.message });
