@@ -1,7 +1,7 @@
-import {Product,ProductFavorito} from "../Models/index.js";
+import { Product, ProductFavorito } from "../Models/index.js";
 
 class ProductController {
-  constructor() {}
+  constructor() { }
 
   getAllProducts = async (req, res) => {
     try {
@@ -24,7 +24,7 @@ class ProductController {
           id: req.params.id,
         },
       })
-      if (!product){
+      if (!product) {
         throw new Error("no se encontro el producto con esa ID")
       }
       res.status(200).send({ success: true, message: "Product por id", data: product });
@@ -34,7 +34,7 @@ class ProductController {
   };
   createProduct = async (req, res) => {
     try {
-      const { nombre, marca, modelo, precio, fotoURL, stock} = req.body;
+      const { nombre, marca, modelo, precio, fotoURL, stock } = req.body;
       const product = await Product.create({ nombre, marca, modelo, precio, fotoURL, stock });
       if (!product) throw new Error("no se puede crear");
       res.status(200).send({ success: true, message: "Product creado", product });
@@ -44,7 +44,7 @@ class ProductController {
   };
   updateProduct = async (req, res) => {
     try {
-      const {nombre, marca, modelo, precio, stock} = req.body;
+      const { nombre, marca, modelo, precio, stock } = req.body;
       const { id } = req.params
       const product = await Product.update({ nombre, marca, modelo, precio, stock }, { where: { id } });
       res
@@ -69,12 +69,12 @@ class ProductController {
   };
   likeProduct = async (req, res) => {
     try {
-      const {id} = req.params;
-      const {userId} = req.query;
-      if (!userId){
+      const { id } = req.params;
+      const { userId } = req.query;
+      if (!userId) {
         throw new Error("No se envio user id por parametro")
       }
-      const likedProduct = await ProductFavorito.create({ UserId:userId, ProductId:id });
+      const likedProduct = await ProductFavorito.create({ UserId: userId, ProductId: id });
       res
         .status(200)
         .send({ success: true, message: "Producto likeado", data: likedProduct });

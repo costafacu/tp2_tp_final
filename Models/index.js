@@ -10,13 +10,13 @@ Role.hasMany(User, {
 User.belongsTo(Role, {
   foreignKey: "roleId"
 })
-User.hasMany(Product,{
+User.hasMany(Product, {
   foreignKey: 'userId'
 })
-Product.belongsTo(User,{
+Product.belongsTo(User, {
   foreignKey: 'userId'
 })
 User.belongsToMany(Product, { through: ProductFavorito });
 Product.belongsToMany(User, { through: ProductFavorito });
 
-export { User, Role, Product,ProductFavorito };
+export { User, Role, Product, ProductFavorito };

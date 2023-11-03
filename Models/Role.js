@@ -1,7 +1,7 @@
 import { DataTypes as DT, Model } from "sequelize";
 import connection from "../connection/connection.js";
 
-class Role extends Model {}
+class Role extends Model { }
 
 Role.init(
   {
