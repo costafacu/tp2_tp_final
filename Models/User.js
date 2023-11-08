@@ -1,7 +1,17 @@
 import { DataTypes, Model } from "sequelize";
 import connection from "../connection/connection.js";
+import bcrypt from "bcrypt";
 
-class User extends Model { }
+class User extends Model {
+  // validatePassword = async (passwordTextoPlano) => {
+  //   const validate = await bcrypt.compare(passwordTextoPlano, this.password);
+  //   return validate; 
+  // };
+  validatePassword = async (passwordTextoPlano) => {
+    const validate = await bcrypt.hash(passwordTextoPlano, this.salt);
+    return validate === this.password;
+  };
+ }
 
 User.init(
   {
@@ -32,7 +42,19 @@ User.init(
           msg: "Debe ingresar un nombre de usuario.",
         },
       },
-    }
+    },
+    salt: { 
+      type: DataTypes.STRING 
+    },
+    passoword: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: {
+          msg: "Debe ingresar una contraseña.",
+        },
+      },
+    },
   },
   {
     sequelize: connection,
@@ -40,5 +62,12 @@ User.init(
     timestamps: false,
   }
 );
+
+User.beforeCreate(async (user) => {
+  const salt = await bcrypt.genSalt();
+  user.salt = salt;
+  const hashPassword = await bcrypt.hash(user.passoword, salt);
+  user.passoword = hashPassword;
+});
 
 export default User;
