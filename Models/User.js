@@ -46,7 +46,7 @@ User.init(
     salt: { 
       type: DataTypes.STRING 
     },
-    passoword: {
+    password: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
@@ -66,8 +66,8 @@ User.init(
 User.beforeCreate(async (user) => {
   const salt = await bcrypt.genSalt();
   user.salt = salt;
-  const hashPassword = await bcrypt.hash(user.passoword, salt);
-  user.passoword = hashPassword;
+  const hashPassword = await bcrypt.hash(user.password, salt);
+  user.password = hashPassword;
 });
 
 export default User;

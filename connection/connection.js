@@ -2,7 +2,7 @@ import { Sequelize } from "sequelize";
 import { environment } from "../config.js";
 
 const connection = new Sequelize(environment.DATABASE_CONNECTION_URL, {
-  dialect: "postgres",
+  dialect: "postgres", // pasar a env
   ssl: true
 })
 

@@ -1,5 +1,5 @@
 import { User, Role, Product } from "../Models/index.js";
-import { generateToken, verifyToken } from "../utils/jwt.js";  
+import { generateToken, verifyToken } from "../utils/jwt.js";
 
 class UserController {
   constructor() { }
@@ -38,13 +38,26 @@ class UserController {
     try {
       const { nombre, apellido, username, password } = req.body;
 
-      const defaultRole = await Role.findOne({
-        where: {
-          name: "user",
-        }
-      })
+      const count = await User.count();
+      let roleId;
 
-      const user = await User.create({ nombre, apellido, username, password, roleId: defaultRole.id });
+      if (count === 0) {
+        const adminRole = await Role.findOne({
+          where: {
+            name: "Admin"
+          }
+        })
+        roleId = adminRole.id;
+      } else {
+        const defaultRole = await Role.findOne({
+          where: {
+            name: "Usuario",
+          }
+        });
+        roleId = defaultRole.id;
+      }
+
+      const user = await User.create({ nombre, apellido, username, password, roleId });
       if (!user) throw new Error("no se creo nada");
       res
         .status(200)
@@ -103,7 +116,7 @@ class UserController {
       const payload = {
         id: user.id,
         role: user.Role.dataValues.name,
-      }; 
+      };
       const token = generateToken(payload);
       res.cookie("token", token)
 

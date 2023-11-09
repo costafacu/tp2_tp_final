@@ -35,7 +35,8 @@ class ProductController {
   createProduct = async (req, res) => {
     try {
       const { nombre, marca, modelo, precio, fotoURL, stock } = req.body;
-      const product = await Product.create({ nombre, marca, modelo, precio, fotoURL, stock });
+      const { id: userId } = req.user;
+      const product = await Product.create({ nombre, marca, modelo, precio, fotoURL, stock, userId });
       if (!product) throw new Error("no se puede crear");
       res.status(200).send({ success: true, message: "Product creado", product });
     } catch (error) {
