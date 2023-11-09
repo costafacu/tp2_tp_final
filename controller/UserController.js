@@ -23,7 +23,30 @@ class UserController {
       const user = await User.findOne({
         where: { id },
         attributes: ["id", "username", "nombre", "apellido"],
-        include: [{ model: Role, attributes: ["name"] }, { model: Product, attributes: ["id", "nombre", "marca", "modelo", "precio", "fotoURL", "stock", "userId"] }],
+        include: [
+          {
+            model: Role,
+            attributes: ["name"]
+          },
+          {
+            model: Product,
+            attributes: ["id", "nombre", "marca", "modelo", "precio", "fotoURL", "stock"],
+            as: 'products'
+          },
+          {
+            model: Product,
+            attributes: ["id", "nombre", "marca", "modelo", "precio", "fotoURL", "stock", "userId"],
+            as: 'likes',
+            through: 'ProductFavorito',
+            include: [
+              {
+                model: User,
+                attributes: ["id", "username", "nombre", "apellido"],
+                as: 'user'
+              }
+            ],
+          }
+        ],
       });
       if (!user) throw new Error("No hay usuario con ese ID");
       res

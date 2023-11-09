@@ -71,10 +71,8 @@ class ProductController {
   likeProduct = async (req, res) => {
     try {
       const { id } = req.params;
-      const { userId } = req.query;
-      if (!userId) {
-        throw new Error("No se envio user id por parametro")
-      }
+      const { id: userId } = req.user;
+
       const producto = await Product.findOne({
         where: {
           id
@@ -85,7 +83,7 @@ class ProductController {
         throw new Error("No se encontró el producto")
       }
 
-      producto.addUser(userId);
+      producto.addLikedBy(userId);
 
       res
         .status(200)
