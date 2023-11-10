@@ -1,8 +1,8 @@
 import { Sequelize } from "sequelize";
-import { environment } from "../config.js";
+import { environment } from "../config/config.js";
 
 const connection = new Sequelize(environment.DATABASE_CONNECTION_URL, {
-  dialect: "postgres", // pasar a env
+  dialect: environment.DIALECT, 
   ssl: true
 })
 

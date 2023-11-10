@@ -3,6 +3,7 @@ import connection from "./connection/connection.js";
 import router from "./routes/router.js";
 import cookieParser from "cookie-parser";
 import { seedRoles } from "./connection/seed.js";
+import { environment } from "./config/config.js";
 
 const app = express();
 app.use(express.json());
@@ -19,6 +20,6 @@ await connection.sync({ force: false }).then(async () => {
   await seedRoles();
 })
 
-app.listen(8080, () => {
-  console.log("Server is running on port http://localhost:8080");
+app.listen(environment.SERVER_PORT, () => {
+  console.log("Server is running on port http://localhost:"+environment.SERVER_PORT);
 });
