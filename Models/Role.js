@@ -9,6 +9,11 @@ Role.init(
       type: DT.STRING,
       allowNull: false,
       unique: true,
+      validate: {
+        notEmpty: {
+          msg: "El rol no puede estar vacío.",
+        },
+      },
     },
   },
   {

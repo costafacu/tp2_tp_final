@@ -2,7 +2,6 @@ import User from "./User.js";
 import Role from "./Role.js";
 import Product from "./Product.js";
 
-
 Role.hasMany(User, {
   foreignKey: 'roleId',
 })

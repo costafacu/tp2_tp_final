@@ -9,5 +9,4 @@ router.use("/role", roleRoutes);
 router.use("/user", userRoutes);
 router.use("/product", productRoutes);
 
-
 export default router;

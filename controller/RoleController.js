@@ -41,7 +41,7 @@ class RoleController {
     try {
       const { name } = req.body;
       const { id } = req.params;
-      const role = await Role.update({ name }, { where: { id } });
+      const role = await Role.update({ name }, { where: { id }, returning: true});
       res
         .status(200)
         .send({ success: true, message: "Role modificado", data: role });
@@ -49,7 +49,6 @@ class RoleController {
       res.status(400).send({ success: false, message: error.message });
     }
   };
-
   deleteRole = async (req, res) => {
     try {
       const { id } = req.params;
