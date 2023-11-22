@@ -50,7 +50,7 @@ class ProductController {
       const product = await Product.update({ nombre, marca, modelo, precio, stock }, { where: { id } });
       res
         .status(200)
-        .send({ success: true, message: "Product modificado", data: product });
+        .send({ success: true, message: "Producto modificado", data: product });
     } catch (error) {
       res.status(400).send({ success: false, message: error.message });
     }
@@ -58,12 +58,12 @@ class ProductController {
   deleteProduct = async (req, res) => {
     try {
       const { id } = req.params;
-      const product = await product.destroy({
+      const product = await Product.destroy({
         where: { id },
       });
       res
         .status(200)
-        .send({ success: true, message: "Product eliminado", data: product });
+        .send({ success: true, message: "Producto eliminado", data: product });
     } catch (error) {
       res.status(400).send({ success: false, message: error.message });
     }
