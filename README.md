@@ -1,4 +1,5 @@
 # Como levantar el proyecto
+- Version de Node: ^18.17.0 
 
 ## Instalar dependencias
 ```bash
